@@ -3,92 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Night Owl | Kavali Midnight Delivery</title>
+    <title>Night Owl 🦉 | Midnight Delivery Service</title>
     <style>
         :root {
-            --bg: #121212;
-            --card-bg: #1e1e1e;
-            --accent: #f39c12;
-            --accent-hover: #e67e22;
-            --text: #ffffff;
-            --text-muted: #b2b2b2;
-            --green: #2ecc71;
-            --border: #333333;
+            --bg-base: #0f1115;
+            --bg-card: #181c24;
+            --bg-input: #212631;
+            --accent: #f59e0b;
+            --accent-hover: #d97706;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --green: #10b981;
+            --border: #2d3748;
         }
-        body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; max-width: 440px; margin: auto; }
-        header { text-align: center; margin-bottom: 25px; }
-        h1 { color: var(--accent); margin: 0 0 5px 0; font-size: 28px; }
-        .subtitle { color: var(--text-muted); font-size: 13px; }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         
-        .section-title { color: var(--accent); font-size: 16px; margin: 25px 0 10px 0; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+        body { background: var(--bg-base); color: var(--text-main); padding: 15px; display: flex; justify-content: center; min-height: 100vh; }
         
-        #menuContainer { min-height: 100px; }
-        .menu-item { background: var(--card-bg); padding: 14px; margin: 12px 0; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); transition: border-color 0.2s; }
-        .menu-item:hover { border-color: var(--accent); }
-        .item-details h4 { margin: 0 0 4px 0; font-size: 16px; }
-        .item-details p { margin: 0 0 6px 0; color: var(--text-muted); font-size: 12px; }
-        .price { color: var(--green); font-weight: bold; font-size: 15px; }
+        .app-container { width: 100%; max-width: 480px; padding-bottom: 40px; }
+
+        header { text-align: center; padding: 25px 0; background: linear-gradient(180deg, rgba(245, 158, 11, 0.1) 0%, rgba(15, 17, 21, 0) 100%); border-radius: 16px; margin-bottom: 20px; }
+        .logo { font-size: 32px; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
+        .tagline { color: var(--text-muted); font-size: 13px; margin-top: 6px; font-weight: 500; }
+
+        .section-header { font-size: 15px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin: 25px 0 12px 4px; display: flex; align-items: center; justify-content: space-between; }
+
+        #menuContainer { display: flex; flex-direction: column; gap: 10px; }
         
-        input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--accent); cursor: pointer; }
+        .menu-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; cursor: pointer; }
+        .menu-card:hover { border-color: var(--accent); transform: translateY(-1px); }
         
-        .form-group { margin: 12px 0; }
-        label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
-        input[type="text"] { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); box-sizing: border-box; font-size: 14px; }
-        input:focus { outline: none; border-color: var(--accent); }
+        .item-info h4 { font-size: 15px; font-weight: 600; color: var(--text-main); margin-bottom: 3px; }
+        .item-info p { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; line-height: 1.3; }
+        .item-price { font-size: 14px; font-weight: 700; color: var(--green); }
+
+        .checkbox-wrapper { display: flex; align-items: center; }
+        input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--accent); cursor: pointer; border-radius: 6px; }
+
+        .form-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
         
-        .cart-summary { background: #181818; border: 1px dashed var(--accent); padding: 15px; border-radius: 10px; margin-top: 25px; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: bold; }
-        .total-price { color: var(--green); font-size: 20px; }
-        
-        button { width: 100%; padding: 15px; margin-top: 15px; border-radius: 8px; border: none; background: var(--accent); color: #000; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.2s; }
-        button:hover { background: var(--accent-hover); }
-        button:disabled { background: #555; color: #888; cursor: not-allowed; }
-        
-        .footer-note { text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 20px; }
-        .loading { text-align: center; color: var(--text-muted); padding: 20px; }
+        .input-group { display: flex; flex-direction: column; gap: 5px; }
+        .input-group label { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+        .input-group input { width: 100%; padding: 12px 14px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); font-size: 14px; transition: border-color 0.2s; }
+        .input-group input:focus { outline: none; border-color: var(--accent); }
+
+        .checkout-box { background: linear-gradient(135deg, #181c24 0%, #1f242d 100%); border: 1px solid var(--accent); border-radius: 12px; padding: 16px; margin-top: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .checkout-box .label { font-size: 14px; color: var(--text-muted); font-weight: 600; }
+        .checkout-box .amount { font-size: 22px; font-weight: 800; color: var(--green); }
+
+        .btn-order { width: 100%; background: var(--accent); color: #000; border: none; padding: 15px; border-radius: 10px; font-size: 16px; font-weight: 800; margin-top: 15px; cursor: pointer; transition: background 0.2s, transform 0.1s; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); }
+        .btn-order:hover { background: var(--accent-hover); }
+        .btn-order:active { transform: scale(0.98); }
+        .btn-order:disabled { background: #4b5563; color: #9ca3af; cursor: not-allowed; box-shadow: none; }
+
+        .loading, .error-state { text-align: center; padding: 30px; color: var(--text-muted); font-size: 14px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); }
+        .error-state { color: #ef4444; }
+
+        .footer-note { text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 25px; font-weight: 500; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Night Owl 🦉</h1>
-        <div class="subtitle">Kavali's Ultimate Midnight Cravings Delivery (10 PM - 4 AM)</div>
-    </header>
+    <div class="app-container">
+        <header>
+            <div class="logo">Night Owl 🦉</div>
+            <div class="tagline">Kavali's Midnight Cravings Delivery • 10 PM to 4 AM</div>
+        </header>
 
-    <div class="section-title">Menu Selection</div>
-    <div id="menuContainer">
-        <div class="loading">Loading live menu from sheet...</div>
-    </div>
+        <div class="section-header">Select Menu</div>
+        <div id="menuContainer">
+            <div class="loading">Loading live menu...</div>
+        </div>
 
-    <div class="section-title">Delivery Details</div>
-    <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" id="name" placeholder="Enter your name">
-    </div>
-    
-    <div class="form-group">
-        <label>Phone Number</label>
-        <input type="text" id="phone" placeholder="WhatsApp / Mobile number">
-    </div>
-    
-    <div class="form-group">
-        <label>Hostel / Location Details</label>
-        <input type="text" id="room" placeholder="Hostel Block & Room No">
-    </div>
+        <div class="section-header">Delivery Details</div>
+        <div class="form-card">
+            <div class="input-group">
+                <label>Your Full Name</label>
+                <input type="text" id="name" placeholder="e.g. Rahul Sharma">
+            </div>
+            <div class="input-group">
+                <label>Phone / WhatsApp Number</label>
+                <input type="text" id="phone" placeholder="e.g. 9876543210">
+            </div>
+            <div class="input-group">
+                <label>Hostel Block & Room Number</label>
+                <input type="text" id="room" placeholder="e.g. Block A, Room 204">
+            </div>
+        </div>
 
-    <div class="cart-summary">
-        <span>Total Amount:</span>
-        <span class="total-price" id="totalDisplay">₹0</span>
-    </div>
-    
-    <button id="submitBtn" onclick="submitOrder()">Place Order Now 🚀</button>
+        <div class="checkout-box">
+            <span class="label">Total Amount</span>
+            <span class="amount" id="totalDisplay">₹0</span>
+        </div>
 
-    <div class="footer-note">Payment via UPI / Cash on Delivery upon arrival.</div>
+        <button id="submitBtn" class="btn-order" onclick="submitOrder()">Place Order Now 🚀</button>
+
+        <div class="footer-note">⚡ Quick UPI or Cash on Delivery upon direct room drop-off.</div>
+    </div>
 
     <script>
-        // Your Version 4 Web App URL
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJoqcRWuV7x2kOBtsWHh4uKykBRWoyOfi9hcla9mx-wYCnXhdGXK-v7Fe2CnyDiY_i/exec";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyQovniU0jT5NMfKt_3Kjhkq6UZXP1ofBKHid-aYHYc-A7xFHKKM86FdvFaG_0ArjOf/exec";
 
-        // Fetch menu dynamically from Google Sheet on load
         window.onload = function() {
             fetch(WEB_APP_URL + "?action=getMenu")
                 .then(res => res.json())
@@ -96,25 +112,34 @@
                     let container = document.getElementById('menuContainer');
                     container.innerHTML = "";
                     if(items.length === 0) {
-                        container.innerHTML = "<div class='loading'>No menu items found. Add items to your 'Menu' tab in Google Sheets.</div>";
+                        container.innerHTML = "<div class='loading'>No items found in Sheet. Add items in your 'Menu' tab.</div>";
                         return;
                     }
                     items.forEach(item => {
                         let div = document.createElement('div');
-                        div.className = "menu-item";
+                        div.className = "menu-card";
+                        div.onclick = function(e) {
+                            if(e.target.tagName !== 'INPUT') {
+                                let checkbox = div.querySelector('input');
+                                checkbox.checked = !checkbox.checked;
+                                calculateTotal();
+                            }
+                        };
                         div.innerHTML = `
-                            <div class="item-details">
+                            <div class="item-info">
                                 <h4>${item.name}</h4>
-                                <p>${item.description}</p>
-                                <span class="price">₹${item.price}</span>
+                                <p>${item.description || 'Delicious midnight snack'}</p>
+                                <div class="item-price">₹${item.price}</div>
                             </div>
-                            <input type="checkbox" class="order-item" data-name="${item.name}" data-price="${item.price}" onchange="calculateTotal()">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" class="order-item" data-name="${item.name}" data-price="${item.price}" onchange="calculateTotal()">
+                            </div>
                         `;
                         container.appendChild(div);
                     });
                 })
                 .catch(err => {
-                    document.getElementById('menuContainer').innerHTML = "<div class='loading' style='color:#e74c3c;'>Failed to load menu. Check your deployment URL.</div>";
+                    document.getElementById('menuContainer').innerHTML = "<div class='error-state'>Failed to load menu. Check deployment script URL.</div>";
                 });
         };
 
@@ -146,7 +171,7 @@
                 return;
             }
             if(checkedItems.length === 0) {
-                alert("Please select at least one food item from the menu!");
+                alert("Please select at least one item from the menu!");
                 return;
             }
 
@@ -158,7 +183,7 @@
             };
 
             let btn = document.getElementById('submitBtn');
-            btn.innerText = "Submitting Order...";
+            btn.innerText = "Placing Order...";
             btn.disabled = true;
 
             fetch(WEB_APP_URL, {
@@ -167,7 +192,7 @@
             })
             .then(res => res.json())
             .then(data => {
-                alert("🎉 Order Placed Successfully! We are rushing to your room.");
+                alert("🎉 Order Placed Successfully! We are preparing your food.");
                 location.reload();
             })
             .catch(err => {
