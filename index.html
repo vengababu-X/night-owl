@@ -22,6 +22,7 @@
         
         .section-title { color: var(--accent); font-size: 16px; margin: 25px 0 10px 0; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
         
+        #menuContainer { min-height: 100px; }
         .menu-item { background: var(--card-bg); padding: 14px; margin: 12px 0; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); transition: border-color 0.2s; }
         .menu-item:hover { border-color: var(--accent); }
         .item-details h4 { margin: 0 0 4px 0; font-size: 16px; }
@@ -43,6 +44,7 @@
         button:disabled { background: #555; color: #888; cursor: not-allowed; }
         
         .footer-note { text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 20px; }
+        .loading { text-align: center; color: var(--text-muted); padding: 20px; }
     </style>
 </head>
 <body>
@@ -53,36 +55,11 @@
     </header>
 
     <div class="section-title">Menu Selection</div>
-
-    <div class="menu-item">
-        <div class="item-details">
-            <h4>Midnight Maggi</h4>
-            <p>Hot, classic soupy maggi with special spices</p>
-            <span class="price">₹45</span>
-        </div>
-        <input type="checkbox" class="order-item" data-name="Midnight Maggi" data-price="45" onchange="calculateTotal()">
-    </div>
-
-    <div class="menu-item">
-        <div class="item-details">
-            <h4>Cheese Corn Sandwich</h4>
-            <p>Loaded with melted cheese & sweet corn</p>
-            <span class="price">₹60</span>
-        </div>
-        <input type="checkbox" class="order-item" data-name="Cheese Corn Sandwich" data-price="60" onchange="calculateTotal()">
-    </div>
-
-    <div class="menu-item">
-        <div class="item-details">
-            <h4>Cold Coffee</h4>
-            <p>Thick, chilled chocolate coffee blend</p>
-            <span class="price">₹50</span>
-        </div>
-        <input type="checkbox" class="order-item" data-name="Cold Coffee" data-price="50" onchange="calculateTotal()">
+    <div id="menuContainer">
+        <div class="loading">Loading live menu from sheet...</div>
     </div>
 
     <div class="section-title">Delivery Details</div>
-    
     <div class="form-group">
         <label>Full Name</label>
         <input type="text" id="name" placeholder="Enter your name">
@@ -108,8 +85,38 @@
     <div class="footer-note">Payment via UPI / Cash on Delivery upon arrival.</div>
 
     <script>
-        // Your Version 3 Web App URL
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw2nArCAARDFRnGrRlJUdm5NmJN58sE0yd0AgQV6h2gJIA7x1K7z64HhDvQRrw/exec";
+        // Your Version 4 Web App URL
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJoqcRWuV7x2kOBtsWHh4uKykBRWoyOfi9hcla9mx-wYCnXhdGXK-v7Fe2CnyDiY_i/exec";
+
+        // Fetch menu dynamically from Google Sheet on load
+        window.onload = function() {
+            fetch(WEB_APP_URL + "?action=getMenu")
+                .then(res => res.json())
+                .then(items => {
+                    let container = document.getElementById('menuContainer');
+                    container.innerHTML = "";
+                    if(items.length === 0) {
+                        container.innerHTML = "<div class='loading'>No menu items found. Add items to your 'Menu' tab in Google Sheets.</div>";
+                        return;
+                    }
+                    items.forEach(item => {
+                        let div = document.createElement('div');
+                        div.className = "menu-item";
+                        div.innerHTML = `
+                            <div class="item-details">
+                                <h4>${item.name}</h4>
+                                <p>${item.description}</p>
+                                <span class="price">₹${item.price}</span>
+                            </div>
+                            <input type="checkbox" class="order-item" data-name="${item.name}" data-price="${item.price}" onchange="calculateTotal()">
+                        `;
+                        container.appendChild(div);
+                    });
+                })
+                .catch(err => {
+                    document.getElementById('menuContainer').innerHTML = "<div class='loading' style='color:#e74c3c;'>Failed to load menu. Check your deployment URL.</div>";
+                });
+        };
 
         function calculateTotal() {
             let total = 0;
@@ -164,7 +171,6 @@
                 location.reload();
             })
             .catch(err => {
-                // Fallback for CORS opaque response if Google sheets processed it anyway
                 alert("🎉 Order Placed Successfully! We received your request.");
                 location.reload();
             });
