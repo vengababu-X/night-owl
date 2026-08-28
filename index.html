@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Night Owl | Kavali Midnight Delivery</title>
+    <style>
+        body { background: #121212; color: #fff; font-family: sans-serif; padding: 20px; max-width: 420px; margin: auto; }
+        h1 { color: #f39c12; text-align: center; margin-bottom: 2px; }
+        .subtitle { text-align: center; color: #aaa; font-size: 13px; margin-bottom: 25px; }
+        .item { background: #1e1e1e; padding: 14px; margin: 12px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; }
+        .item-info h4 { margin: 0 0 4px 0; color: #fff; font-size: 15px; }
+        .item-info span { color: #2ecc71; font-weight: bold; font-size: 14px; }
+        input[type="checkbox"] { width: 20px; height: 20px; accent-color: #f39c12; cursor: pointer; }
+        h3 { color: #f39c12; margin-top: 25px; font-size: 16px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        input[type="text"] { width: 100%; padding: 12px; margin: 8px 0; border-radius: 6px; border: 1px solid #444; background: #1e1e1e; color: #fff; box-sizing: border-box; font-size: 14px; }
+        input:focus { outline: none; border-color: #f39c12; }
+        button { width: 100%; padding: 14px; margin-top: 15px; border-radius: 6px; border: none; background: #f39c12; color: #000; font-weight: bold; font-size: 16px; cursor: pointer; }
+        button:hover { background: #e67e22; }
+    </style>
+</head>
+<body>
+
+    <h1>Night Owl 🦉</h1>
+    <div class="subtitle">Midnight Cravings in Kavali (10 PM - 4 AM)</div>
+
+    <div class="item">
+        <div class="item-info">
+            <h4>Midnight Maggi</h4>
+            <span>₹45</span>
+        </div>
+        <input type="checkbox" class="order-item" value="Midnight Maggi - ₹45">
+    </div>
+
+    <div class="item">
+        <div class="item-info">
+            <h4>Cheese Corn Sandwich</h4>
+            <span>₹60</span>
+        </div>
+        <input type="checkbox" class="order-item" value="Cheese Corn Sandwich - ₹60">
+    </div>
+
+    <div class="item">
+        <div class="item-info">
+            <h4>Cold Coffee</h4>
+            <span>₹50</span>
+        </div>
+        <input type="checkbox" class="order-item" value="Cold Coffee - ₹50">
+    </div>
+
+    <h3>Delivery Details</h3>
+    <input type="text" id="name" placeholder="Your Full Name">
+    <input type="text" id="phone" placeholder="Phone Number">
+    <input type="text" id="room" placeholder="Hostel Block & Room Number">
+    
+    <button onclick="submitOrder()">Place Order Now</button>
+
+    <script>
+        const WEB_APP_URL = "YOUR_ACTUAL_WEB_APP_URL"; // <-- Paste your deployment URL inside these quotes!
+
+        function submitOrder() {
+            let name = document.getElementById('name').value.trim();
+            let phone = document.getElementById('phone').value.trim();
+            let room = document.getElementById('room').value.trim();
+            
+            let checkedItems = [];
+            document.querySelectorAll('.order-item:checked').forEach(el => {
+                checkedItems.push(el.value);
+            });
+
+            if(!name || !phone || !room) {
+                alert("Please fill in your Name, Phone, and Room Number!");
+                return;
+            }
+            if(checkedItems.length === 0) {
+                alert("Please select at least one food item!");
+                return;
+            }
+
+            let orderData = {
+                name: name,
+                phone: phone,
+                room: room,
+                items: checkedItems.join(', ')
+            };
+
+            let btn = document.querySelector('button');
+            btn.innerText = "Placing Order...";
+            btn.disabled = true;
+
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                body: JSON.stringify(orderData)
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert("🎉 Order Placed Successfully! We are preparing your food.");
+                location.reload();
+            })
+            .catch(err => {
+                alert("Error placing order. Please try again or WhatsApp us directly.");
+                btn.innerText = "Place Order Now";
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
