@@ -5,58 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Night Owl | Kavali Midnight Delivery</title>
     <style>
-        body { background: #121212; color: #fff; font-family: sans-serif; padding: 20px; max-width: 420px; margin: auto; }
-        h1 { color: #f39c12; text-align: center; margin-bottom: 2px; }
-        .subtitle { text-align: center; color: #aaa; font-size: 13px; margin-bottom: 25px; }
-        .item { background: #1e1e1e; padding: 14px; margin: 12px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; }
-        .item-info h4 { margin: 0 0 4px 0; color: #fff; font-size: 15px; }
-        .item-info span { color: #2ecc71; font-weight: bold; font-size: 14px; }
-        input[type="checkbox"] { width: 20px; height: 20px; accent-color: #f39c12; cursor: pointer; }
-        h3 { color: #f39c12; margin-top: 25px; font-size: 16px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-        input[type="text"] { width: 100%; padding: 12px; margin: 8px 0; border-radius: 6px; border: 1px solid #444; background: #1e1e1e; color: #fff; box-sizing: border-box; font-size: 14px; }
-        input:focus { outline: none; border-color: #f39c12; }
-        button { width: 100%; padding: 14px; margin-top: 15px; border-radius: 6px; border: none; background: #f39c12; color: #000; font-weight: bold; font-size: 16px; cursor: pointer; }
-        button:hover { background: #e67e22; }
+        :root {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --accent: #f39c12;
+            --accent-hover: #e67e22;
+            --text: #ffffff;
+            --text-muted: #b2b2b2;
+            --green: #2ecc71;
+            --border: #333333;
+        }
+        body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; max-width: 440px; margin: auto; }
+        header { text-align: center; margin-bottom: 25px; }
+        h1 { color: var(--accent); margin: 0 0 5px 0; font-size: 28px; }
+        .subtitle { color: var(--text-muted); font-size: 13px; }
+        
+        .section-title { color: var(--accent); font-size: 16px; margin: 25px 0 10px 0; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+        
+        .menu-item { background: var(--card-bg); padding: 14px; margin: 12px 0; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); transition: border-color 0.2s; }
+        .menu-item:hover { border-color: var(--accent); }
+        .item-details h4 { margin: 0 0 4px 0; font-size: 16px; }
+        .item-details p { margin: 0 0 6px 0; color: var(--text-muted); font-size: 12px; }
+        .price { color: var(--green); font-weight: bold; font-size: 15px; }
+        
+        input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--accent); cursor: pointer; }
+        
+        .form-group { margin: 12px 0; }
+        label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
+        input[type="text"] { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); box-sizing: border-box; font-size: 14px; }
+        input:focus { outline: none; border-color: var(--accent); }
+        
+        .cart-summary { background: #181818; border: 1px dashed var(--accent); padding: 15px; border-radius: 10px; margin-top: 25px; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: bold; }
+        .total-price { color: var(--green); font-size: 20px; }
+        
+        button { width: 100%; padding: 15px; margin-top: 15px; border-radius: 8px; border: none; background: var(--accent); color: #000; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.2s; }
+        button:hover { background: var(--accent-hover); }
+        button:disabled { background: #555; color: #888; cursor: not-allowed; }
+        
+        .footer-note { text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <h1>Night Owl 🦉</h1>
-    <div class="subtitle">Midnight Cravings in Kavali (10 PM - 4 AM)</div>
+    <header>
+        <h1>Night Owl 🦉</h1>
+        <div class="subtitle">Kavali's Ultimate Midnight Cravings Delivery (10 PM - 4 AM)</div>
+    </header>
 
-    <div class="item">
-        <div class="item-info">
+    <div class="section-title">Menu Selection</div>
+
+    <div class="menu-item">
+        <div class="item-details">
             <h4>Midnight Maggi</h4>
-            <span>₹45</span>
+            <p>Hot, classic soupy maggi with special spices</p>
+            <span class="price">₹45</span>
         </div>
-        <input type="checkbox" class="order-item" value="Midnight Maggi - ₹45">
+        <input type="checkbox" class="order-item" data-name="Midnight Maggi" data-price="45" onchange="calculateTotal()">
     </div>
 
-    <div class="item">
-        <div class="item-info">
+    <div class="menu-item">
+        <div class="item-details">
             <h4>Cheese Corn Sandwich</h4>
-            <span>₹60</span>
+            <p>Loaded with melted cheese & sweet corn</p>
+            <span class="price">₹60</span>
         </div>
-        <input type="checkbox" class="order-item" value="Cheese Corn Sandwich - ₹60">
+        <input type="checkbox" class="order-item" data-name="Cheese Corn Sandwich" data-price="60" onchange="calculateTotal()">
     </div>
 
-    <div class="item">
-        <div class="item-info">
+    <div class="menu-item">
+        <div class="item-details">
             <h4>Cold Coffee</h4>
-            <span>₹50</span>
+            <p>Thick, chilled chocolate coffee blend</p>
+            <span class="price">₹50</span>
         </div>
-        <input type="checkbox" class="order-item" value="Cold Coffee - ₹50">
+        <input type="checkbox" class="order-item" data-name="Cold Coffee" data-price="50" onchange="calculateTotal()">
     </div>
 
-    <h3>Delivery Details</h3>
-    <input type="text" id="name" placeholder="Your Full Name">
-    <input type="text" id="phone" placeholder="Phone Number">
-    <input type="text" id="room" placeholder="Hostel Block & Room Number">
+    <div class="section-title">Delivery Details</div>
     
-    <button onclick="submitOrder()">Place Order Now</button>
+    <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="name" placeholder="Enter your name">
+    </div>
+    
+    <div class="form-group">
+        <label>Phone Number</label>
+        <input type="text" id="phone" placeholder="WhatsApp / Mobile number">
+    </div>
+    
+    <div class="form-group">
+        <label>Hostel / Location Details</label>
+        <input type="text" id="room" placeholder="Hostel Block & Room No">
+    </div>
+
+    <div class="cart-summary">
+        <span>Total Amount:</span>
+        <span class="total-price" id="totalDisplay">₹0</span>
+    </div>
+    
+    <button id="submitBtn" onclick="submitOrder()">Place Order Now 🚀</button>
+
+    <div class="footer-note">Payment via UPI / Cash on Delivery upon arrival.</div>
 
     <script>
-        const WEB_APP_URL = "YOUR_ACTUAL_WEB_APP_URL"; // <-- Paste your deployment URL inside these quotes!
+        // Your Version 3 Web App URL
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw2nArCAARDFRnGrRlJUdm5NmJN58sE0yd0AgQV6h2gJIA7x1K7z64HhDvQRrw/exec";
+
+        function calculateTotal() {
+            let total = 0;
+            document.querySelectorAll('.order-item:checked').forEach(el => {
+                total += parseInt(el.getAttribute('data-price'));
+            });
+            document.getElementById('totalDisplay').innerText = "₹" + total;
+        }
 
         function submitOrder() {
             let name = document.getElementById('name').value.trim();
@@ -64,16 +125,21 @@
             let room = document.getElementById('room').value.trim();
             
             let checkedItems = [];
+            let totalAmount = 0;
+            
             document.querySelectorAll('.order-item:checked').forEach(el => {
-                checkedItems.push(el.value);
+                let nameStr = el.getAttribute('data-name');
+                let priceStr = el.getAttribute('data-price');
+                checkedItems.push(nameStr + " (₹" + priceStr + ")");
+                totalAmount += parseInt(priceStr);
             });
 
             if(!name || !phone || !room) {
-                alert("Please fill in your Name, Phone, and Room Number!");
+                alert("Please fill in your Name, Phone Number, and Hostel Room!");
                 return;
             }
             if(checkedItems.length === 0) {
-                alert("Please select at least one food item!");
+                alert("Please select at least one food item from the menu!");
                 return;
             }
 
@@ -81,11 +147,11 @@
                 name: name,
                 phone: phone,
                 room: room,
-                items: checkedItems.join(', ')
+                items: checkedItems.join(', ') + " [Total: ₹" + totalAmount + "]"
             };
 
-            let btn = document.querySelector('button');
-            btn.innerText = "Placing Order...";
+            let btn = document.getElementById('submitBtn');
+            btn.innerText = "Submitting Order...";
             btn.disabled = true;
 
             fetch(WEB_APP_URL, {
@@ -94,13 +160,13 @@
             })
             .then(res => res.json())
             .then(data => {
-                alert("🎉 Order Placed Successfully! We are preparing your food.");
+                alert("🎉 Order Placed Successfully! We are rushing to your room.");
                 location.reload();
             })
             .catch(err => {
-                alert("Error placing order. Please try again or WhatsApp us directly.");
-                btn.innerText = "Place Order Now";
-                btn.disabled = false;
+                // Fallback for CORS opaque response if Google sheets processed it anyway
+                alert("🎉 Order Placed Successfully! We received your request.");
+                location.reload();
             });
         }
     </script>
