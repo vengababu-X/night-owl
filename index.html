@@ -3,107 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Night Owl 🦉 | Midnight Delivery Service</title>
+    <title>Night Owl 🦉 | Kavali Midnight Delivery</title>
     <style>
         :root {
-            --bg-base: #0f1115;
-            --bg-card: #181c24;
-            --bg-input: #212631;
+            --bg-base: #090a0f;
+            --bg-card: #131722;
+            --bg-input: #1b2130;
             --accent: #f59e0b;
             --accent-hover: #d97706;
-            --text-main: #f3f4f6;
+            --text-main: #f9fafb;
             --text-muted: #9ca3af;
             --green: #10b981;
-            --border: #2d3748;
+            --border: #2a3447;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         
-        body { background: var(--bg-base); color: var(--text-main); padding: 15px; display: flex; justify-content: center; min-height: 100vh; }
+        body { background: var(--bg-base); color: var(--text-main); padding: 20px 15px; display: flex; justify-content: center; min-height: 100vh; }
         
-        .app-container { width: 100%; max-width: 480px; padding-bottom: 40px; }
+        .app-wrapper { width: 100%; max-width: 460px; padding-bottom: 60px; }
 
-        header { text-align: center; padding: 25px 0; background: linear-gradient(180deg, rgba(245, 158, 11, 0.1) 0%, rgba(15, 17, 21, 0) 100%); border-radius: 16px; margin-bottom: 20px; }
-        .logo { font-size: 32px; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
-        .tagline { color: var(--text-muted); font-size: 13px; margin-top: 6px; font-weight: 500; }
+        header { text-align: center; padding: 30px 20px; background: radial-gradient(circle at center, rgba(245, 158, 11, 0.15) 0%, rgba(9, 10, 15, 0) 70%); border-radius: 20px; margin-bottom: 24px; border: 1px solid var(--border); }
+        .logo-badge { display: inline-block; background: rgba(245, 158, 11, 0.1); color: var(--accent); padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; border: 1px solid rgba(245, 158, 11, 0.2); }
+        .logo { font-size: 30px; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+        .tagline { color: var(--text-muted); font-size: 13px; margin-top: 6px; font-weight: 400; }
 
-        .section-header { font-size: 15px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin: 25px 0 12px 4px; display: flex; align-items: center; justify-content: space-between; }
+        .section-title { font-size: 13px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin: 25px 0 12px 4px; display: flex; align-items: center; justify-content: space-between; }
 
-        #menuContainer { display: flex; flex-direction: column; gap: 10px; }
+        #menuContainer { display: flex; flex-direction: column; gap: 12px; }
         
-        .menu-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; cursor: pointer; }
-        .menu-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+        .menu-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; display: flex; justify-content: space-between; align-items: center; transition: all 0.25s ease; cursor: pointer; box-shadow: var(--shadow); }
+        .menu-card:hover { border-color: var(--accent); transform: translateY(-2px); }
         
-        .item-info h4 { font-size: 15px; font-weight: 600; color: var(--text-main); margin-bottom: 3px; }
-        .item-info p { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; line-height: 1.3; }
-        .item-price { font-size: 14px; font-weight: 700; color: var(--green); }
+        .item-info h4 { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+        .item-info p { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.4; }
+        .item-price { font-size: 15px; font-weight: 800; color: var(--green); }
 
-        .checkbox-wrapper { display: flex; align-items: center; }
-        input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--accent); cursor: pointer; border-radius: 6px; }
+        .checkbox-box { display: flex; align-items: center; }
+        input[type="checkbox"] { width: 24px; height: 24px; accent-color: var(--accent); cursor: pointer; border-radius: 6px; }
 
-        .form-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+        .form-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--shadow); }
         
-        .input-group { display: flex; flex-direction: column; gap: 5px; }
-        .input-group label { font-size: 12px; font-weight: 600; color: var(--text-muted); }
-        .input-group input { width: 100%; padding: 12px 14px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); font-size: 14px; transition: border-color 0.2s; }
-        .input-group input:focus { outline: none; border-color: var(--accent); }
+        .input-box { display: flex; flex-direction: column; gap: 6px; }
+        .input-box label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-box input { width: 100%; padding: 13px 15px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 10px; color: var(--text-main); font-size: 14px; transition: border-color 0.2s; }
+        .input-box input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15); }
 
-        .checkout-box { background: linear-gradient(135deg, #181c24 0%, #1f242d 100%); border: 1px solid var(--accent); border-radius: 12px; padding: 16px; margin-top: 25px; display: flex; justify-content: space-between; align-items: center; }
-        .checkout-box .label { font-size: 14px; color: var(--text-muted); font-weight: 600; }
-        .checkout-box .amount { font-size: 22px; font-weight: 800; color: var(--green); }
+        .checkout-container { background: linear-gradient(135deg, #131722 0%, #1a202c 100%); border: 1px dashed var(--accent); border-radius: 14px; padding: 18px; margin-top: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); }
+        .checkout-container .label { font-size: 14px; color: var(--text-muted); font-weight: 600; }
+        .checkout-container .amount { font-size: 24px; font-weight: 900; color: var(--green); }
 
-        .btn-order { width: 100%; background: var(--accent); color: #000; border: none; padding: 15px; border-radius: 10px; font-size: 16px; font-weight: 800; margin-top: 15px; cursor: pointer; transition: background 0.2s, transform 0.1s; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); }
-        .btn-order:hover { background: var(--accent-hover); }
+        .btn-order { width: 100%; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #000; border: none; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 800; margin-top: 16px; cursor: pointer; transition: all 0.2s; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3); }
+        .btn-order:hover { filter: brightness(1.1); transform: translateY(-1px); }
         .btn-order:active { transform: scale(0.98); }
-        .btn-order:disabled { background: #4b5563; color: #9ca3af; cursor: not-allowed; box-shadow: none; }
+        .btn-order:disabled { background: #374151; color: #9ca3af; cursor: not-allowed; box-shadow: none; filter: none; }
 
-        .loading, .error-state { text-align: center; padding: 30px; color: var(--text-muted); font-size: 14px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); }
-        .error-state { color: #ef4444; }
+        .loading, .error-message { text-align: center; padding: 30px; color: var(--text-muted); font-size: 14px; background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border); }
+        .error-message { color: #ef4444; }
 
-        .footer-note { text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 25px; font-weight: 500; }
+        .footer-credit { text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 25px; font-weight: 500; }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
+    <div class="app-wrapper">
         <header>
+            <div class="logo-badge">⚡ Live Campus Delivery</div>
             <div class="logo">Night Owl 🦉</div>
-            <div class="tagline">Kavali's Midnight Cravings Delivery • 10 PM to 4 AM</div>
+            <div class="tagline">Kavalis's Premier Midnight Cravings Service • 10 PM to 4 AM</div>
         </header>
 
-        <div class="section-header">Select Menu</div>
+        <div class="section-title"><span>🍽️ Available Menu</span></div>
         <div id="menuContainer">
-            <div class="loading">Loading live menu...</div>
+            <div class="loading">Loading live menu from your Google Sheet...</div>
         </div>
 
-        <div class="section-header">Delivery Details</div>
+        <div class="section-title"><span>📍 Delivery Information</span></div>
         <div class="form-card">
-            <div class="input-group">
-                <label>Your Full Name</label>
-                <input type="text" id="name" placeholder="e.g. Rahul Sharma">
+            <div class="input-box">
+                <label>Full Name</label>
+                <input type="text" id="name" placeholder="Enter your full name">
             </div>
-            <div class="input-group">
+            <div class="input-box">
                 <label>Phone / WhatsApp Number</label>
-                <input type="text" id="phone" placeholder="e.g. 9876543210">
+                <input type="text" id="phone" placeholder="Enter your mobile number">
             </div>
-            <div class="input-group">
+            <div class="input-box">
                 <label>Hostel Block & Room Number</label>
                 <input type="text" id="room" placeholder="e.g. Block A, Room 204">
             </div>
         </div>
 
-        <div class="checkout-box">
-            <span class="label">Total Amount</span>
+        <div class="checkout-container">
+            <span class="label">Total Amount Payable</span>
             <span class="amount" id="totalDisplay">₹0</span>
         </div>
 
         <button id="submitBtn" class="btn-order" onclick="submitOrder()">Place Order Now 🚀</button>
 
-        <div class="footer-note">⚡ Quick UPI or Cash on Delivery upon direct room drop-off.</div>
+        <div class="footer-credit">🔒 Secure Instant Sync • UPI & Cash on Delivery Available</div>
     </div>
 
     <script>
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyQovniU0jT5NMfKt_3Kjhkq6UZXP1ofBKHid-aYHYc-A7xFHKKM86FdvFaG_0ArjOf/exec";
+        // Your latest Web App URL
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzjae011gxaVP8r_b1Eb6UYosnpYIX2CSGVtoLr6L871nzLqKuYa7llYaLPzCIDYBPY/exec";
 
         window.onload = function() {
             fetch(WEB_APP_URL + "?action=getMenu")
@@ -112,7 +116,7 @@
                     let container = document.getElementById('menuContainer');
                     container.innerHTML = "";
                     if(items.length === 0) {
-                        container.innerHTML = "<div class='loading'>No items found in Sheet. Add items in your 'Menu' tab.</div>";
+                        container.innerHTML = "<div class='loading'>No items found in your 'Menu' sheet tab.</div>";
                         return;
                     }
                     items.forEach(item => {
@@ -128,10 +132,10 @@
                         div.innerHTML = `
                             <div class="item-info">
                                 <h4>${item.name}</h4>
-                                <p>${item.description || 'Delicious midnight snack'}</p>
+                                <p>${item.description || 'Midnight Special'}</p>
                                 <div class="item-price">₹${item.price}</div>
                             </div>
-                            <div class="checkbox-wrapper">
+                            <div class="checkbox-box">
                                 <input type="checkbox" class="order-item" data-name="${item.name}" data-price="${item.price}" onchange="calculateTotal()">
                             </div>
                         `;
@@ -139,7 +143,7 @@
                     });
                 })
                 .catch(err => {
-                    document.getElementById('menuContainer').innerHTML = "<div class='error-state'>Failed to load menu. Check deployment script URL.</div>";
+                    document.getElementById('menuContainer').innerHTML = "<div class='error-message'>Failed to fetch menu. Check Web App URL deployment.</div>";
                 });
         };
 
@@ -167,7 +171,7 @@
             });
 
             if(!name || !phone || !room) {
-                alert("Please fill in your Name, Phone Number, and Hostel Room!");
+                alert("Please fill in your Name, Phone Number, and Hostel Room address!");
                 return;
             }
             if(checkedItems.length === 0) {
@@ -183,7 +187,7 @@
             };
 
             let btn = document.getElementById('submitBtn');
-            btn.innerText = "Placing Order...";
+            btn.innerText = "Transmitting Order...";
             btn.disabled = true;
 
             fetch(WEB_APP_URL, {
@@ -192,11 +196,11 @@
             })
             .then(res => res.json())
             .then(data => {
-                alert("🎉 Order Placed Successfully! We are preparing your food.");
+                alert("🎉 Order Placed Successfully! Your items are locked in.");
                 location.reload();
             })
             .catch(err => {
-                alert("🎉 Order Placed Successfully! We received your request.");
+                alert("🎉 Order Placed Successfully! Your details have been sent.");
                 location.reload();
             });
         }
