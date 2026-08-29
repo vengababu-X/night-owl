@@ -52,6 +52,10 @@
         .input-box input { width: 100%; padding: 13px 15px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 10px; color: var(--text-main); font-size: 14px; transition: border-color 0.2s; }
         .input-box input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15); }
 
+        .location-row { display: flex; gap: 8px; }
+        .btn-gps { background: #3b82f6; color: white; border: none; padding: 0 14px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+        .btn-gps:hover { background: #2563eb; }
+
         .checkout-container { background: linear-gradient(135deg, #131722 0%, #1a202c 100%); border: 1px dashed var(--accent); border-radius: 14px; padding: 18px; margin-top: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); }
         .checkout-container .label { font-size: 14px; color: var(--text-muted); font-weight: 600; }
         .checkout-container .amount { font-size: 24px; font-weight: 900; color: var(--green); }
@@ -71,9 +75,9 @@
 
     <div class="app-wrapper">
         <header>
-            <div class="logo-badge">⚡ Live owl Delivery</div>
+            <div class="logo-badge">🌙 Midnight Cravings</div>
             <div class="logo">Night Owl 🦉</div>
-            <div class="tagline">Kavali's Premier Midnight Cravings Service • 10 PM to 4 AM</div>
+            <div class="tagline">Kavali's Premier Midnight Delivery Service • 10 PM to 4 AM</div>
         </header>
 
         <div class="section-title"><span>🍽️ Available Menu</span></div>
@@ -92,11 +96,15 @@
                 <input type="text" id="phone" placeholder="Enter your mobile number">
             </div>
             <div class="input-box">
-                <label>Address</label>
-                <input type="text" id="room" placeholder="e.g.Visvodaya Campus, Udayagiri Road, Kavali, ">
-                  <div class="input-box">
-                <label>Google map live  link </label>
-                <input type="text" id="room" placeholder="e.g.https://maps.app.goo.gl/example ">
+                <label>Hostel / Room Address</label>
+                <input type="text" id="room" placeholder="e.g. Visvodaya Campus, Room 224">
+            </div>
+            <div class="input-box">
+                <label>Google Map Live Link</label>
+                <div class="location-row">
+                    <input type="text" id="mapLink" placeholder="Click GPS button or paste link">
+                    <button type="button" class="btn-gps" onclick="getGPSLocation()">📍 GPS</button>
+                </div>
             </div>
         </div>
 
@@ -111,8 +119,8 @@
     </div>
 
     <script>
-        // Your latest Web App URL
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzjae011gxaVP8r_b1Eb6UYosnpYIX2CSGVtoLr6L871nzLqKuYa7llYaLPzCIDYBPY/exec";
+        // Your active Web App URL:
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx0ncH_7qw53vIjgEBoRUIklIFQ7ZU_G0auVOzz-K9xbjtdODOUfhHvkNITVkc7cyS3/exec";
 
         window.onload = function() {
             fetch(WEB_APP_URL + "?action=getMenu")
@@ -160,11 +168,31 @@
             document.getElementById('totalDisplay').innerText = "₹" + total;
         }
 
-        // Function to trigger celebration confetti blast
+        function getGPSLocation() {
+            let mapInput = document.getElementById('mapLink');
+            if (!navigator.geolocation) {
+                alert("Geolocation is not supported by your browser");
+                return;
+            }
+            mapInput.value = "Fetching GPS coordinates...";
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    let lat = position.coords.latitude;
+                    let lon = position.coords.longitude;
+                    mapInput.value = `https://www.google.com/maps?q=${lat},${lon}`;
+                    alert("📍 Location captured successfully!");
+                },
+                (error) => {
+                    mapInput.value = "";
+                    alert("Unable to retrieve location. Please check browser permissions.");
+                }
+            );
+        }
+
         function triggerConfetti() {
             confetti({
-                particleCount: 100,
-                spread: 70,
+                particleCount: 120,
+                spread: 80,
                 origin: { y: 0.6 }
             });
         }
@@ -173,6 +201,7 @@
             let name = document.getElementById('name').value.trim();
             let phone = document.getElementById('phone').value.trim();
             let room = document.getElementById('room').value.trim();
+            let mapLink = document.getElementById('mapLink').value.trim();
             
             let checkedItems = [];
             let totalAmount = 0;
@@ -185,7 +214,7 @@
             });
 
             if(!name || !phone || !room) {
-                alert("Please fill in your Name, Phone Number, and Hostel Room address!");
+                alert("Please fill in your Name, Phone Number, and Address!");
                 return;
             }
             if(checkedItems.length === 0) {
@@ -197,6 +226,7 @@
                 name: name,
                 phone: phone,
                 room: room,
+                mapLink: mapLink ? mapLink : "Not Provided",
                 items: checkedItems.join(', ') + " [Total: ₹" + totalAmount + "]"
             };
 
@@ -210,18 +240,18 @@
             })
             .then(res => res.json())
             .then(data => {
-                triggerConfetti(); // 💥 Blast the sprinkles/confetti here!
+                triggerConfetti();
                 setTimeout(() => {
-                    alert("🎉 Order Placed Successfully! Your items are locked in.");
+                    alert("🎉 Order Placed Successfully!");
                     location.reload();
-                }, 800); // Slight delay so they can see the confetti before alert popup
+                }, 900);
             })
             .catch(err => {
-                triggerConfetti(); // 💥 Blast the sprinkles/confetti here too!
+                triggerConfetti();
                 setTimeout(() => {
-                    alert("🎉 Order Placed Successfully! Your details have been sent.");
+                    alert("🎉 Order Placed Successfully!");
                     location.reload();
-                }, 800);
+                }, 900);
             });
         }
     </script>
