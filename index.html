@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Night Owl 🦉 | Kavali Midnight Delivery</title>
+    <!-- Include Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --bg-base: #090a0f;
@@ -71,7 +73,7 @@
         <header>
             <div class="logo-badge">⚡ Live Campus Delivery</div>
             <div class="logo">Night Owl 🦉</div>
-            <div class="tagline">Kavalis's Premier Midnight Cravings Service • 10 PM to 4 AM</div>
+            <div class="tagline">Kavali's Premier Midnight Cravings Service • 10 PM to 4 AM</div>
         </header>
 
         <div class="section-title"><span>🍽️ Available Menu</span></div>
@@ -155,6 +157,15 @@
             document.getElementById('totalDisplay').innerText = "₹" + total;
         }
 
+        // Function to trigger celebration confetti blast
+        function triggerConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
         function submitOrder() {
             let name = document.getElementById('name').value.trim();
             let phone = document.getElementById('phone').value.trim();
@@ -196,12 +207,18 @@
             })
             .then(res => res.json())
             .then(data => {
-                alert("🎉 Order Placed Successfully! Your items are locked in.");
-                location.reload();
+                triggerConfetti(); // 💥 Blast the sprinkles/confetti here!
+                setTimeout(() => {
+                    alert("🎉 Order Placed Successfully! Your items are locked in.");
+                    location.reload();
+                }, 800); // Slight delay so they can see the confetti before alert popup
             })
             .catch(err => {
-                alert("🎉 Order Placed Successfully! Your details have been sent.");
-                location.reload();
+                triggerConfetti(); // 💥 Blast the sprinkles/confetti here too!
+                setTimeout(() => {
+                    alert("🎉 Order Placed Successfully! Your details have been sent.");
+                    location.reload();
+                }, 800);
             });
         }
     </script>
